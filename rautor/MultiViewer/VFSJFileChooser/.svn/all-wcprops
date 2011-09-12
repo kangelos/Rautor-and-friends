@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser
+END
+.classpath
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/.classpath
+END
+LICENSE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/LICENSE.txt
+END
+.project
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/.project
+END
+commons-vfs.patch
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/commons-vfs.patch
+END
+manifest.mf
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/manifest.mf
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/README.txt
+END
+build.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build.xml
+END

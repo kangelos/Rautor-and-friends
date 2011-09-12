@@ -1,0 +1,14 @@
+drop table if exists `rautor_sessions`;
+
+CREATE TABLE `rautor_sessions` (
+  `domain` varchar(30) default NULL,
+  `node` varchar(30) default NULL,
+  `username` varchar(20) default NULL,
+  `status` varchar(30) default NULL,
+  `ipaddress` varchar(15) default NULL,
+  `path` varchar(255) NOT NULL default '',
+  `starttime` datetime not NULL,
+  `lastping` datetime not NULL,
+  `clearedtime` datetime not NULL
+);
+

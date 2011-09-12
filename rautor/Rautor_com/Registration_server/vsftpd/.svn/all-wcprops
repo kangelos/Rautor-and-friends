@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/vsftpd
+END
+vsftpd.pem
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/vsftpd/vsftpd.pem
+END
+user_list
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/vsftpd/user_list
+END
+vsftpd.conf
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/vsftpd/vsftpd.conf
+END
+ftpusers
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/vsftpd/ftpusers
+END
+vsftpd_conf_migrate.sh
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/vsftpd/vsftpd_conf_migrate.sh
+END

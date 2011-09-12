@@ -1,0 +1,84 @@
+-- MySQL dump 10.11
+--
+-- Host: localhost    Database: rautor
+-- ------------------------------------------------------
+-- Server version	5.0.77
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `sessions`
+--
+
+DROP TABLE IF EXISTS `sessions`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `sessions` (
+  `username` varchar(20) default NULL,
+  `sessionid` char(32) NOT NULL default '',
+  `timestamp` datetime default NULL,
+  `ipaddress` varchar(15) default NULL,
+  `port` int(5) default NULL,
+  `node` varchar(30) default NULL,
+  `domain` varchar(30) default NULL,
+  `status` varchar(30) default NULL,
+  `clearedtime` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`sessionid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `sessions`
+--
+
+LOCK TABLES `sessions` WRITE;
+/*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
+
+--
+-- Temporary table structure for view `sesview`
+--
+
+DROP TABLE IF EXISTS `sesview`;
+/*!50001 DROP VIEW IF EXISTS `sesview`*/;
+/*!50001 CREATE TABLE `sesview` (
+  `username` varchar(20),
+  `sessionid` char(32),
+  `timestamp` datetime,
+  `ipaddress` varchar(15),
+  `port` int(5),
+  `node` varchar(30),
+  `domain` varchar(30),
+  `status` varchar(30),
+  `clearedtime` timestamp,
+  concat('<a href="Monitor">http://',ipaddress,":",port,"/",sessionid,"/monitor</a>") as url
+) ENGINE=MyISAM */;
+
+--
+-- Final view structure for view `sesview`
+--
+
+/*!50001 DROP TABLE `sesview`*/;
+/*!50001 DROP VIEW IF EXISTS `sesview`*/;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `sesview` AS select `sessions`.`username` AS `username`,`sessions`.`sessionid` AS `sessionid`,`sessions`.`timestamp` AS `timestamp`,`sessions`.`ipaddress` AS `ipaddress`,`sessions`.`port` AS `port`,`sessions`.`node` AS `node`,`sessions`.`domain` AS `domain`,`sessions`.`status` AS `status`,`sessions`.`clearedtime` AS `clearedtime` from `sessions` where (`sessions`.`status` = _latin1'START') order by `sessions`.`domain`,`sessions`.`node`,`sessions`.`username`,`sessions`.`timestamp` */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2010-02-04 10:52:00

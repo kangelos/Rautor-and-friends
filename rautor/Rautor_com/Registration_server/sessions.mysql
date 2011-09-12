@@ -1,0 +1,17 @@
+
+DROP TABLE IF EXISTS `sessions`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `sessions` (
+  `username` varchar(20) default NULL,
+  `sessionid` char(32) NOT NULL default '',
+  `timestamp` datetime,
+  `lastping` datetime,
+  `ipaddress` varchar(15) default NULL,
+  `port` int(5) default NULL,
+  `node` varchar(30) default NULL,
+  `domain` varchar(30) default NULL,
+  `status` varchar(30) default NULL,
+  `clearedtime` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`sessionid`)
+);

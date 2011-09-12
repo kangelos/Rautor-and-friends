@@ -1,0 +1,285 @@
+#!/usr/bin/perl
+#
+#  A screen grabber with an embedded Web Server
+# Angelos Karageorgiou
+# angelos@unix.gr	Oct 2009
+#
+
+use HTTP::Daemon;
+use HTTP::Response;
+use HTTP::Status;
+use Win32::API;
+use Win32::GUI;
+use Win32::GUI::DIBitmap;
+use Win32::GuiTest qw|FindWindowLike IsWindowVisible GetWindowText WMGetText IsKeyPressed GetAsyncKeyState|;
+
+
+BEGIN {
+	my ($DOS) = Win32::GUI::GetPerlWindow();
+	# Uncomment the following  linr if running form source
+	#if ( $DOS ) {  Win32::GUI::Hide($DOS); }
+	
+	# hide child windows like netstat :-)
+ 	if ( defined &Win32::SetChildShowWindow ){
+		Win32::SetChildShowWindow(0) 
+ 	}
+ }
+
+
+
+$HTTP::Daemon::PROTO = "HTTP/1.0";
+#primary
+my $GetDC = new Win32::API('user32', 'GetDC',     ['N'],     'N');
+my $RelDC = new Win32::API('user32', 'ReleaseDC', [qw/N N/], 'I');
+#Alternate
+my $GetDW = new Win32::API('user32','GetDesktopWindow', [],  'N');
+my $DESKTOP = $GetDW->Call();
+
+
+
+# calculate the number of screens
+my $NumScreens=0;
+for (my $i=0;$i<100;$i++){
+	my $dispname="\\\\.\\Display".$i;
+	my $Screen=new Win32::GUI::DC("DISPLAY",$dispname);
+	if ( $Screen ) {
+		$image = newFromDC Win32::GUI::DIBitmap($Screen) ;
+ 		if ( $image ) {
+			$NumScreens++;
+		}
+		Win32::GUI::DC::ReleaseDC(0,$Screen);
+	}
+}
+
+
+#print "I have located $NumScreens monitors\n";
+
+my $imgFname="screen.png";
+my $daemon = HTTP::Daemon->new(Listen=>10,LocalPort=>42000, ReuseAddr=>1) || die;
+
+while (my $connection = $daemon->accept) {	
+ 	process_one_req( $connection);
+	$connection->close;
+	undef($connection);	
+}
+
+$RelDC->Call(0,$dc);
+1;
+# Done !
+
+
+############################################################
+sub process_one_req {
+    my $connection = shift;
+	
+	return if ( ! $connection) ;
+    my $receiver = $connection->get_request;
+
+	if (! ($receiver->method eq 'GET') ){
+       		$connection->send_error(RC_FORBIDDEN);
+	}	 
+       	elsif  ($receiver->url->path eq "/numscreens" ) {
+       		my $response = HTTP::Response->new(200);
+		my $Text="The system has " . $NumScreens . " monitor(s)";
+       		$response->content($Text);
+		$connection->send_response($response);	
+	}
+       	elsif  ($receiver->url->path =~ /\/screen([1-9]*)\.png$/ )  {
+		my $scrnum=1;
+		if ( $1 ) {
+			$scrnum=$1;
+		}
+		my $res=screendumper($scrnum);
+		my $fname="screen".$scrnum.".png";
+		if ( $fname eq "screen.png" ) {
+			$fname="screen1.png";
+		}
+		if ( ! -f $fname )  {
+          		$connection->send_error(404,"Could not grab the screen num $scrnum");
+			$connection->close;
+			undef($connection);
+			return;
+		}
+       		my $response = HTTP::Response->new(200);
+       		$response->push_header('Content-Type','image/png');
+		$connection->send_response($response);
+		$connection->send_file($fname);
+		unlink $fname;
+	}
+       	elsif  ($receiver->url->path eq "/monitor" ) {		
+		my $RepeatHTML="<HEAD><META HTTP-EQUIV=REFRESH CONTENT=5></HEAD>\r\n
+<table width=\"100%\" height=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"position:relative\">\r\n
+<tr>\r\n
+";
+			for (my $i=1;$i<=$NumScreens;$i++){
+				my $fname="screen".$i.".png";
+				$RepeatHTML .= "<td><a href=\"/$fname\"><img src=\"\/$fname\" width=\"100%\"  align=left></a></td>\r\n";
+				if ( ( $i % 2 ) == 0 ) {
+					$RepeatHTML .= "</tr>\r\n<tr>";	
+				}
+		}
+		$RepeatHTML .= "</tr></table>";	
+       	my $response = HTTP::Response->new(length($RepeatHTMl)+50);
+      	$response->content($RepeatHTML);
+		$connection->send_response($response);	
+	}
+       	elsif  ($receiver->url->path eq "/scrape" ) {
+		my $Text=DumpAnyText();
+       		my $response = HTTP::Response->new(200);
+      		$response->content('<pre>' . $Text . '</pre>');
+		$connection->send_response($response);	
+	}
+       	elsif  ($receiver->url->path eq "/netstat" ) {
+       		my $response = HTTP::Response->new(200);
+		my $Text=readnetstat("c:\\WINDOWS\\system32\\\\netstat.exe -bn");
+		if ( ! $Text ) {
+        		$connection->send_error(404,"Could not do netstat");
+		} else {
+      			$response->content($Text);
+			$connection->send_response($response);	
+		}
+	}
+      	elsif  ($receiver->url->path eq "/fullnetstat" ) {
+       		my $response = HTTP::Response->new(200);
+		my $Text=readnetstat("c:\\WINDOWS\\system32\\netstat.exe -bavn");
+		if ( ! $Text ) {
+        		$connection->send_error(404,"Could not do netstat");
+		} else {
+      			$response->content($Text);
+			$connection->send_response($response);	
+		}
+	} else {
+	# no matches
+		$connection->send_error(RC_FORBIDDEN);
+	}
+}
+
+
+
+
+############################################################
+sub readnetstat{
+	my $cmdline=shift;
+ 	my $Text="<table border=1 cellspacing=0  bgcolor=pink><tr><th>Proto</th><th>Local Address</th><th>Foreign Address</th><th>State</th><th>PID</th><th>Apllication</th></tr>\n";
+
+	open (FIN , "$cmdline|") ;
+	if ( ! FIN ) {
+		return undef;
+	}
+	my %row=0;
+	while (<FIN>){
+		$row++;
+		next if ( /^\s[\s]*$/);
+		$_ =~ s/^\s*//g;
+		$_ =~ s/\s[\s]*/ /g;
+		chomp($_);
+		chomp($_);
+		next if ( /^Active/);
+		next if ( /^Proto/);
+		($Proto,$LocalAddress,$ForeignAddress,$State,$PID)=split(/\s/,$_);
+		if  ( ( $Proto  eq 'TCP' ) or  ( $Proto  eq 'UDP')){
+			my $tr="";
+			if ( $row %2 != 0 ) {
+				$tr= "<tr bgcolor=lightgrey>";
+			} else {
+				$tr="<tr>";
+			}
+			$Text .= $tr . "<td>$Proto</td><td>$LocalAddress</td><td>$ForeignAddress</td><td>$State</td><td>$PID</td>\n";
+		} else {
+			$Text .= "<td colspan=5>$_</td></tr>\n";
+		}
+	}
+	$Text .= "</table>";
+return $Text;
+}
+
+
+############################################################
+sub screendumper{
+	my $i=shift(@_);
+
+	my $disp="\\\\.\\Display".$i;
+	my $fname="screen".$i.".png";
+ 	my $Screen = new Win32::GUI::DC("DISPLAY",$disp);
+		if ( $Screen){
+       	 	$image = newFromDC Win32::GUI::DIBitmap($Screen) ;
+        		if ( $image ) {
+                		$image->SaveToFile($fname);
+        		}
+ 		Win32::GUI::DC::ReleaseDC(0,$Screen);
+ 	}
+}
+
+
+############################################################
+sub screendumper_singleton{
+	my $dc  = $GetDC->Call(0);
+	if ( ! $dc ) {
+		return -1;
+	}
+	my $image = newFromDC Win32::GUI::DIBitmap($dc) ;
+
+	if ( ! $image ) {	
+		return -1;
+	}
+	$image->SaveToFile($imgFname)	|| return -1;
+	return 1;
+}
+
+
+############################################################
+sub screendumper2{
+	my $image = newFromWindow Win32::GUI::DIBitmap($DESKTOP,0) ;
+	if ( ! $image ) {	
+		return ( -1 );
+	}
+	$image->SaveToFile($imgFname)	|| return -1;
+	return(1);
+
+}
+
+
+
+
+############# Screen Scraper Section ################
+#####################################################
+
+sub DumpAnyText{
+	my $Text="";
+	my @hwnds = FindWindowLike();     
+	foreach my $window (@hwnds) {
+		my $title=GetWindowText($window);
+		next if ( $title =~ /^$/);
+		$Text .= "[$title]\n";
+	
+		my @edits=FindWindowLike($window,"","");
+		foreach my $ed (@edits) {
+			my $text=" " x 65536;
+			$text=GetWhatYoucan($ed);
+			$text=~s/\x00/ / ;
+			$text=~s/[\r\n]$// ;
+			next if ($text =~ /^$/ );
+			$Text .= "\t". $text ."\n";
+		}
+		$Text .= "\n";
+	}
+	return($Text);
+}
+
+
+######################################################################
+sub GetWhatYoucan{
+	my $ed=shift;
+
+	my $text="";
+    	eval {
+       		local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n required
+       		alarm 1;
+		$text=WMGetText($ed);
+       		alarm 0;
+    	};
+    	if ($@) {
+		return undef;
+    	}
+	return $text;
+}

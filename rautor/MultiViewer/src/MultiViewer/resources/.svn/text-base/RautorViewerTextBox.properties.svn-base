@@ -1,0 +1,5 @@
+title = Current Screen Contents
+
+closeAboutBox.Action.text = &Close
+#NOI18N
+jTextArea1.foreground=0, 0, 153

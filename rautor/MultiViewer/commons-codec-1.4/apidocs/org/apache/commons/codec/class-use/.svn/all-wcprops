@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/rautor/!svn/ver/85/MultiViewer/commons-codec-1.4/apidocs/org/apache/commons/codec/class-use
+END
+StringDecoder.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rautor/!svn/ver/85/MultiViewer/commons-codec-1.4/apidocs/org/apache/commons/codec/class-use/StringDecoder.html
+END
+EncoderException.html
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/rautor/!svn/ver/85/MultiViewer/commons-codec-1.4/apidocs/org/apache/commons/codec/class-use/EncoderException.html
+END
+StringEncoderComparator.html
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svnroot/rautor/!svn/ver/85/MultiViewer/commons-codec-1.4/apidocs/org/apache/commons/codec/class-use/StringEncoderComparator.html
+END
+Encoder.html
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/rautor/!svn/ver/85/MultiViewer/commons-codec-1.4/apidocs/org/apache/commons/codec/class-use/Encoder.html
+END
+BinaryEncoder.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rautor/!svn/ver/85/MultiViewer/commons-codec-1.4/apidocs/org/apache/commons/codec/class-use/BinaryEncoder.html
+END
+CharEncoding.html
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svnroot/rautor/!svn/ver/85/MultiViewer/commons-codec-1.4/apidocs/org/apache/commons/codec/class-use/CharEncoding.html
+END
+DecoderException.html
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/rautor/!svn/ver/85/MultiViewer/commons-codec-1.4/apidocs/org/apache/commons/codec/class-use/DecoderException.html
+END
+Decoder.html
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/rautor/!svn/ver/85/MultiViewer/commons-codec-1.4/apidocs/org/apache/commons/codec/class-use/Decoder.html
+END
+StringEncoder.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rautor/!svn/ver/85/MultiViewer/commons-codec-1.4/apidocs/org/apache/commons/codec/class-use/StringEncoder.html
+END
+BinaryDecoder.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rautor/!svn/ver/85/MultiViewer/commons-codec-1.4/apidocs/org/apache/commons/codec/class-use/BinaryDecoder.html
+END

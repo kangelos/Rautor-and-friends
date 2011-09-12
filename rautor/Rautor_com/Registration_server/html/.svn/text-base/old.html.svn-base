@@ -1,0 +1,33 @@
+
+
+<!-- <a href="Multiviewer">Recorded Sessions</a>
+<br><br>
+-->
+
+Sessions Monitoring
+<table>
+<tr>
+<td>
+	Active Sessions
+	<form method=post name=list action=/cgi-bin/listsessions.fcgi>
+	<Input type=submit value="List Active Sessions">
+	</form>
+</td>
+<td>
+	Today's Sessions
+	<form method=post name=list action=/cgi-bin/listsessions.fcgi>
+	<Input type=hidden name=period value="today">
+	<Input type=submit value="List Today's Sessions">
+	</form>
+</td>
+<td>
+	All Sessions
+	<form method=post name=list action=/cgi-bin/listallsessions.fcgi>
+	<Input type=submit value="Show them All">
+	</form>
+</td>
+</tr>
+</table>
+
+<br><p>
+<a href="table.php"> View as table</a>

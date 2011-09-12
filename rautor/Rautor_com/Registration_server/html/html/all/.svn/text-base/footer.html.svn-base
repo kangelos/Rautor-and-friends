@@ -1,0 +1,21 @@
+<center>
+<br><p>
+
+<script src="http://java.com/js/deployJava.js"></script>
+<script>
+        var url="https://192.168.224.95/Multiviewer/launch.jnlp"
+        deployJava.createWebStartLaunchButton(url, "1.6")
+</script><br>
+The Multiviewer
+
+<table valign=middle align=right width="100%" border=0>
+<tr>
+<th valign=middle>
+For comprehensive recording and  Auditing Solutions visit the <a href="http://www.unix.gr/rautor" target="Rautor">Rautor</a> Pages
+</th>
+<th>
+	Back to the <a href="/">Live Sessions</a> 
+</th>
+</tr>
+</tr>
+</table>

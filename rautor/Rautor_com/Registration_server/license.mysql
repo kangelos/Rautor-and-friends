@@ -1,0 +1,21 @@
+
+DROP TABLE IF EXISTS `sesview` ;
+DROP VIEW IF EXISTS `sesview` ;
+CREATE VIEW `sesview` AS select 
+	`sessions`.`username` AS `username`,
+	concat(
+ lower(`sessions`.`domain`) ,':', lower(`sessions`.`node`)
+ ) AS `node`,
+	`sessions`.`sessionid` AS `sessionid`,
+	`sessions`.`timestamp` AS `timestamp`,
+	`sessions`.`lastping` AS `lastping`,
+	`sessions`.`ipaddress` AS `ipaddress`,
+	`sessions`.`port` AS `port`,
+	`sessions`.`status` AS `status`,
+	`sessions`.`clearedtime` AS `clearedtime`,
+concat(_latin1'<a href="http://',`sessions`.`ipaddress`,_latin1':',`sessions`.`port`,_latin1'/',`sessions`.`sessionid`,_latin1'/monitor" target="',`sessions`.`username`,_latin1'">Monitor</a>') AS `Screen`
+ from `sessions` where 
+(`sessions`.`status` = _latin1'START')  or 
+(`sessions`.`status` = _latin1'ALIVE') 
+order by `sessions`.`domain`,`sessions`.`node`,`sessions`.`username`,`sessions`.`timestamp` LIMIT 300;
+

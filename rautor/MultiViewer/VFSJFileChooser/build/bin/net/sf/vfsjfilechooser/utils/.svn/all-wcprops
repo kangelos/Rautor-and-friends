@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/utils
+END
+VFSURIParser.class
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/utils/VFSURIParser.class
+END
+FileObjectComparatorFactory$SizeComparator.class
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/utils/FileObjectComparatorFactory$SizeComparator.class
+END
+SwingCommonsUtilities.class
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/utils/SwingCommonsUtilities.class
+END
+VFSUtils.class
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/utils/VFSUtils.class
+END
+FileObjectComparatorFactory$DateComparator.class
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/utils/FileObjectComparatorFactory$DateComparator.class
+END
+FileObjectComparatorFactory$FileNameComparator.class
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/utils/FileObjectComparatorFactory$FileNameComparator.class
+END
+VFSURIValidator.class
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/utils/VFSURIValidator.class
+END
+FileObjectComparatorFactory.class
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/utils/FileObjectComparatorFactory.class
+END
+FileObjectComparatorFactory$DirectoriesFirstComparatorWrapper.class
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/utils/FileObjectComparatorFactory$DirectoriesFirstComparatorWrapper.class
+END
+VFSResources.class
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/utils/VFSResources.class
+END

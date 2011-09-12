@@ -1,0 +1,103 @@
+#!perl -w
+
+#
+# Script to unlock kidns.exe
+#
+    
+use common::sense;
+    
+
+use Win32::Process;
+use Win32::TieRegistry ( Delimiter=>'/');
+use Win32;
+use Win32::IPConfig;
+
+push @INC,".";
+require "samtools.pm";
+
+
+my $OpenDNSNameServers="208.67.222.222 208.67.220.220";
+my $status=$Registry->{"LMachine/SOFTWARE/kidns.eu/STATUS"};
+my $dhcpnameservers=$Registry->{"LMachine/SOFTWARE/kidns.eu/DHCPNAMESERVER"};
+my $nameservers=$Registry->{"LMachine/SOFTWARE/kidns.eu/NAMESERVER"};
+my $rkey=$Registry->{"LMachine/SYSTEM/CurrentControlSet/Services/Tcpip/Parameters/"};
+my $NAMESERVERS;
+my $DEBUG;	
+
+
+if ( $status eq "ALIVE" ) {
+	Win32::MsgBox("Pres OK to stop kinds and unlock your system",0,"dadNS");
+	$Registry->{"LMachine/SOFTWARE/kidns.eu/"}={ 			
+			"STATUS"	 		=> "STOP"
+	};
+	sleep(5);
+} else {
+	Win32::MsgBox("Odd Kidns.eu does not give seem alive\nPress OK to continue",0,"dadNS");
+}
+
+my $pid=SamTools::Process::getpid("kidns.exe");	
+if ( $pid > 0 ) {
+	Win32::MsgBox("Kidns.eu is stuck\nPress OK to kill it",0,"dadNS");
+	SamTools::Process::kill("kidns.exe");	
+}
+			
+	#global settings
+	if (defined($dhcpnameservers)) {			
+		$rkey->{'DHCPNAMESERVER'}=$dhcpnameservers;
+		$rkey->{'NAMESERVER'}="";		
+		$NAMESERVERS=$dhcpnameservers;
+	}elsif (defined($nameservers)) {			
+		$rkey->{'DHCPNAMESERVER'}="";
+		$rkey->{'NAMESERVER'}=$nameservers;
+		$NAMESERVERS=$nameservers;
+	} else {
+		Win32::MsgBox("Could not find saved Name Server Data\n resorting to safe settings",0,"kidns.eu");
+		$rkey->{'NAMESERVER'}=$OpenDNSNameServers;
+		$NAMESERVERS=$OpenDNSNameServers;
+	}
+	
+	# now do this for every adapter :-(	
+	my $host;
+    if (my $ipconfig = Win32::IPConfig->new($host)) {
+		foreach my $adapter ($ipconfig->get_adapters) {									
+			$adapter->set_dns(split(/\s/,$NAMESERVERS));
+		}
+	}	
+	
+	
+	for my $process ("firefox.exe","chrome.exe","opera.exe","iexplore.exe") {			
+			SamTools::Process::kill($process);			
+	}
+		
+	my $ProcessObj;
+	print "Stopping Dns\n" if ( $DEBUG);
+		Win32::Process::Create($ProcessObj,
+                             $ENV{"windir"}. "\\system32\\net.exe",
+                             'net  stop "dns client"',
+                             0,
+                             NORMAL_PRIORITY_CLASS|CREATE_NO_WINDOW,
+                             ".");
+	$ProcessObj->Wait(INFINITE);
+	print "Flushing Dns\n" if ( $DEBUG);
+	Win32::Process::Create($ProcessObj,
+                             $ENV{"windir"}. "\\system32\\ipconfig.exe",
+                             'ipconfig /flushdns',
+                             0,
+                             NORMAL_PRIORITY_CLASS|CREATE_NO_WINDOW,
+                             ".");
+	$ProcessObj->Wait(INFINITE);	
+	print "Starting Dns\n" if ( $DEBUG);
+		Win32::Process::Create($ProcessObj,
+                             $ENV{"windir"}. "\\system32\\net.exe",
+                             'net  start "dns client"',
+                             0,
+                             NORMAL_PRIORITY_CLASS|CREATE_NO_WINDOW,
+                             "."); 
+ $ProcessObj->Wait(INFINITE);
+
+	
+	Win32::MsgBox("System Unlocked",0,"dadNS");	 
+	
+	if ($0 =~ /.exe/gi){
+		unlink($0); 
+	}

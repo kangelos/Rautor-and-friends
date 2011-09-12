@@ -1,0 +1,7 @@
+Create VIEW `sesview` AS select `sessions`.`username` AS `username`,`sessions`.`sessionid` AS `sessionid`,`sessions`.`timestamp` AS `timestamp`,`sessions`.`ipaddress` AS `ipaddress`,`sessions`.`port` AS `port`,`sessions`.`node` AS `node`,`sessions`.`domain` AS `domain`,`sessions`.`status` AS `status`,`sessions`.`clearedtime` AS `clearedtime`,
+  concat('<a href="http://',`sessions`.ipaddress,':',`sessions`.port,'/',`sessions`.sessionid,'/monitor" target="',
+`sessions`.`username`,'">Monitor</a>') as `url`
+ from `sessions` where (`sessions`.`status` = _latin1'START') order by `sessions`.`domain`,`sessions`.`node`,`sessions`.`username`,`sessions`.`timestamp`
+
+
+

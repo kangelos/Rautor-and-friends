@@ -1,0 +1,73 @@
+<center>
+	<h1> KIDNS.EXE </h1>
+	<h3>the free child safe DNS enforcing program</h3>
+</center>
+
+<a href="http://www.unix.gr/kidns.exe">kidns.exe</a> is a win32 tray application that locks your PC's <a href="http://en.wikipedia.org/wiki/Domain_Name_System">DNS </a>settings to a set of my DNS servers that are configured for <a href="http://www.opendns.com">OPENDNS.COM</a>'s child protection set.
+
+It's characteristics are that:
+<ul>
+	<li>It copies itself under c:\windows or wherever your %windir% might be.</li>
+	<li>It mangles the registry so that it fires up during the PC's start up sequence.</li>
+	<li>There is not exit functionality from the tray icon!</li>
+	<li>It is resilient to kill from the task manager, meaning that the DNS settings remain if it is killed but not unlocked properly!</li>
+</ul>
+I have not created an <strong>uninstaller</strong> as of yet since I wanted to make it difficult for children to uninstall it, but removing  it is as easy as pie. To completely remove it do the following:
+<ol>
+	<li>Delete the application from C:\Windows or wherever your %windir% is.</li>
+	<li>Fire up regedit and remove the key HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\KIDNS .</li>
+	<li>Reboot of follow the unlocking procedure.</li>
+</ol>
+Although the program has not <strong>exit</strong> option, a parent/guardian can <em>unlock</em> the PC by doing the following little song and dance:
+<ol>
+	<li>Fire up the windows notepad application. Hint: clicking on start-&gt;run type notepad.exe and click OK.</li>
+	<li>Visit the Unlock phrase web page at <a href="http://www.unix.gr/kidns.unlock.php">http://www.unix.gr/kidns.unlock.php</a></li>
+	<li>Copy this phrase verbatim in the notepad window and voila in a couple of seconds KIDNS will t try to undo all it benefits and announce it too.</li>
+</ol>
+To better help parents control their children's online behaviour we have configured the following opendns settings automatically for you:
+<img src="blocked.png" width=450>
+<br><pr>
+<b>Caveats</b>:<br> Things might get awry if you already have an opendns account.<br>
+Do <strong>not</strong> use kidns.exe in a corporate environment where you might have other Name Servers  like the ones for Active Directory.<br>
+The unlock phrase is dynamic visit it often. The software is useless against older kids, they are too technologically savvy.
+
+<br><p>
+Have fun! Try to visit play_oy.com after intalling kidns.exe :-)
+
+<br><p>
+<table>
+	<tr><td>
+			KIDNS.EXE is completely Free, but it still requires money to run. Please support this effort by subscribing for a dollar/euro a month:</td>
+		<td>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="9960075">
+<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_subscribe_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+
+</form>
+</td>
+</tr>
+</table>
+
+<br><p>
+<br><p>
+<br><p>
+<hr>
+
+
+<center>
+<script type="text/javascript"><!--
+google_ad_client = "pub-7233395468529209";
+/* 728x90, created 11/12/09 */
+google_ad_slot = "8705736286";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+</center>
+

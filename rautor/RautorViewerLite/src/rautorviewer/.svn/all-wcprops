@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/rautor/!svn/ver/77/RautorViewerLite/src/rautorviewer
+END
+RautorViewerApp.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rautor/!svn/ver/72/RautorViewerLite/src/rautorviewer/RautorViewerApp.java
+END
+RautorViewerAboutBox.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rautor/!svn/ver/72/RautorViewerLite/src/rautorviewer/RautorViewerAboutBox.java
+END
+SearchTextBox.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/rautor/!svn/ver/72/RautorViewerLite/src/rautorviewer/SearchTextBox.java
+END
+RautorViewerAboutBox.form
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rautor/!svn/ver/72/RautorViewerLite/src/rautorviewer/RautorViewerAboutBox.form
+END
+SearchTextBox.form
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/rautor/!svn/ver/72/RautorViewerLite/src/rautorviewer/SearchTextBox.form
+END
+RautorViewerView.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rautor/!svn/ver/77/RautorViewerLite/src/rautorviewer/RautorViewerView.java
+END
+LocaleToCharsetMap.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rautor/!svn/ver/72/RautorViewerLite/src/rautorviewer/LocaleToCharsetMap.java
+END
+RautorViewerView.form
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rautor/!svn/ver/74/RautorViewerLite/src/rautorviewer/RautorViewerView.form
+END
+RautorViewerTextBox.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rautor/!svn/ver/72/RautorViewerLite/src/rautorviewer/RautorViewerTextBox.java
+END
+RautorViewerTextBox.form
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rautor/!svn/ver/72/RautorViewerLite/src/rautorviewer/RautorViewerTextBox.form
+END

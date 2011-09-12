@@ -1,0 +1,53 @@
+%inchash = (
+	
+	'warnings/register.pm' => 'C:/perl/lib/warnings/register.pm',
+	're.pm' => 'C:/perl/lib/re.pm',
+	'XSLoader.pm' => 'C:/perl/lib/XSLoader.pm',
+	'Win32/Process.pm' => 'C:/perl/lib/Win32/Process.pm',
+	'Win32/TieRegistry.pm' => 'C:/perl/lib/Win32/TieRegistry.pm',
+	'ActiveState/Path.pm' => 'C:/perl/lib/ActiveState/Path.pm',
+	'Tie/Hash.pm' => 'C:/perl/lib/Tie/Hash.pm',
+	'warnings.pm' => 'C:/perl/lib/warnings.pm',
+	'Cwd.pm' => 'C:/perl/lib/Cwd.pm',
+	'Config_git.pl' => 'C:/perl/lib/Config_git.pl',
+	'Config.pm' => 'C:/perl/lib/Config.pm',
+	'File/Basename.pm' => 'C:/perl/lib/File/Basename.pm',
+	'C:/perl/site/lib/sitecustomize.pl' => 'C:/perl/site/lib/sitecustomize.pl',
+	'ActivePerl/Config.pm' => 'C:/perl/lib/ActivePerl/Config.pm',
+	'Win32API/Registry.pm' => 'C:/perl/lib/Win32API/Registry.pm',
+	'Carp.pm' => 'C:/perl/lib/Carp.pm',
+	'Win32API/Registry/cRegistry.pc' => 'C:/perl/lib/Win32API/Registry/cRegistry.pc',
+	'Win32/WinError.pm' => 'C:/perl/lib/Win32/WinError.pm',
+	'common/sense.pm' => 'C:/perl/site/lib/common/sense.pm',
+	'Exporter/Heavy.pm' => 'C:/perl/lib/Exporter/Heavy.pm',
+	'vars.pm' => 'C:/perl/lib/vars.pm',
+	'strict.pm' => 'C:/perl/lib/strict.pm',
+	'Exporter.pm' => 'C:/perl/lib/Exporter.pm',
+	'constant.pm' => 'C:/perl/lib/constant.pm',
+	'Config_heavy.pl' => 'C:/perl/lib/Config_heavy.pl',
+	'Win32.pm' => 'C:/perl/lib/Win32.pm',
+	'AutoLoader.pm' => 'C:/perl/lib/AutoLoader.pm',
+	'Win32/IPConfig.pm' => 'C:/perl/site/lib/Win32/IPConfig.pm',
+	'Win32/IPConfig/Adapter.pm' => 'C:/perl/site/lib/Win32/IPConfig/Adapter.pm',
+	'DynaLoader.pm' => 'C:/perl/lib/DynaLoader.pm'
+);
+@incarray = (
+	
+	'C:/perl/site/lib',
+	'C:/perl/lib',
+	'.',
+	'.',
+	'C:/Rautor/common'
+);
+@dl_shared_objects = (
+	
+	'C:/perl/lib/auto/Cwd/Cwd.dll',
+	'C:/perl/lib/auto/Win32/Process/Process.dll',
+	'C:/perl/lib/auto/Win32API/Registry/Registry.dll',
+	'C:/perl/lib/auto/Win32/WinError/WinError.dll',
+	'C:/perl/lib/auto/Win32/Win32.dll',
+	'C:/perl/lib/auto/Cwd/Cwd.bs',
+	'C:/perl/lib/auto/Win32/Process/Process.bs',
+	'C:/perl/lib/auto/Win32API/Registry/Registry.bs',
+	'C:/perl/lib/auto/Win32/WinError/WinError.bs'
+);

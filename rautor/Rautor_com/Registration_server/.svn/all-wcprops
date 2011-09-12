@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server
+END
+rautor.dump
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/rautor.dump
+END
+clear.pl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/clear.pl
+END
+rautor_sessions.sql
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/rautor_sessions.sql
+END
+license.mysql
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/license.mysql
+END
+rautor_sessions.mysql
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/rautor_sessions.mysql
+END
+get.pl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/get.pl
+END
+listsessions.fcgi
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/listsessions.fcgi
+END
+sessions.mysql
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/sessions.mysql
+END
+register.fcgi
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/register.fcgi
+END

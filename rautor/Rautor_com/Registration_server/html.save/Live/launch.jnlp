@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jnlp codebase="https://192.168.224.95/Live" href="launch.jnlp" spec="1.0+">
+    <information>
+        <title>Live Sessions Monitor</title>
+        <vendor>www.unix.gr</vendor>
+        <homepage href="http://www.unix.gr"/>
+        <description>View and Monitor Live sessions from the Rautor System</description>
+        <description kind="short">Live Sessions Monitor</description>
+
+
+    <icon href="daemon.ico" kind="default"/>
+</information>
+<security>
+<all-permissions/>
+</security>
+    <resources>
+<j2se version="1.5+"/>
+<jar eager="true" href="LiveSessionMonitor.jar" main="true"/>
+
+
+    <jar href="lib/appframework-1.0.3.jar"/>
+<jar href="lib/swing-worker-1.1.jar"/>
+<jar href="lib/beansbinding-1.2.1.jar"/>
+<jar href="lib/toplink-essentials.jar"/>
+<jar href="lib/toplink-essentials-agent.jar"/>
+<jar href="lib/mysql-connector-java-5.1.6-bin.jar"/>
+</resources>
+    <application-desc main-class="SessionMon.DesktopApplication2">
+
+    </application-desc>
+</jnlp>

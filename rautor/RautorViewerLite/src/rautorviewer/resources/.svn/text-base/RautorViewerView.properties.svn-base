@@ -1,0 +1,150 @@
+helpMenu.text = Help
+
+# @Action resources
+
+showAboutBox.Action.text = &About...
+showAboutBox.Action.shortDescription = Show the application's information dialog
+
+# status bar resources
+
+StatusBar.messageTimeout = 5000
+StatusBar.busyAnimationRate = 30
+StatusBar.idleIcon = busyicons/idle-icon.png
+StatusBar.busyIcons[0]  = busyicons/busy-icon0.png
+StatusBar.busyIcons[1]  = busyicons/busy-icon1.png
+StatusBar.busyIcons[2]  = busyicons/busy-icon2.png
+StatusBar.busyIcons[3]  = busyicons/busy-icon3.png
+StatusBar.busyIcons[4]  = busyicons/busy-icon4.png
+StatusBar.busyIcons[5]  = busyicons/busy-icon5.png
+StatusBar.busyIcons[6]  = busyicons/busy-icon6.png
+StatusBar.busyIcons[7]  = busyicons/busy-icon7.png
+StatusBar.busyIcons[8]  = busyicons/busy-icon8.png
+StatusBar.busyIcons[9]  = busyicons/busy-icon9.png
+StatusBar.busyIcons[10] = busyicons/busy-icon10.png
+StatusBar.busyIcons[11] = busyicons/busy-icon11.png
+StatusBar.busyIcons[12] = busyicons/busy-icon12.png
+StatusBar.busyIcons[13] = busyicons/busy-icon13.png
+StatusBar.busyIcons[14] = busyicons/busy-icon14.png
+PickSession.Action.shortDescription=
+PickSession.Action.text=
+FollowUser.Action.text=
+FollowUser.Action.shortDescription=
+#NOI18N
+menuBar.background=153, 153, 153
+#NOI18N
+helpMenu.background=153, 153, 153
+Replay.Action.text=
+Replay.Action.shortDescription=
+StopReplay.Action.shortDescription=
+StopReplay.Action.text=
+SetScaled.Action.shortDescription=
+SetScaled.Action.text=
+fileMenu.text=File
+#NOI18N
+fileMenu.background=153, 153, 153
+jMenu1.text=View
+jMenuItem4.text=Full Keyboard Log
+jMenuItem5.text=Full Session Log
+ViewFullKeyboardLog.Action.text=
+ViewFullKeyboardLog.Action.shortDescription=
+ViewCurrentKeyboardLog.Action.shortDescription=
+ViewCurrentKeyboardLog.Action.text=
+ViewSessionLog.Action.shortDescription=
+ViewSessionLog.Action.text=
+ViewCurrentScreenContents.Action.shortDescription=
+ViewCurrentScreenContents.Action.text=
+jMenuItem2.text=Current Screen's Contens
+showTextViewer.Action.text=
+showTextViewer.Action.shortDescription=
+jMenuItem3.text=ReLoad Session
+doWork.Action.shortDescription=
+doWork.Action.text=
+#NOI18N
+exitMenuItem.icon=delete.gif
+#NOI18N
+jMenuItem2.icon=pdlicon.gif
+#NOI18N
+jMenuItem4.icon=cicon2.gif
+#NOI18N
+jMenuItem5.icon=cicon1.gif
+#NOI18N
+jMenu1.icon=${null}
+#NOI18N
+jMenuItem3.icon=refresh.png
+#NOI18N
+aboutMenuItem.icon=ctxtrain_opn.gif
+ReloadSession.Action.text=
+ReloadSession.Action.shortDescription=
+jMenuItem5.actionCommand=Full Session Log
+jMenuItem5.label=Full Session Log
+jMenuItem4.actionCommand=Full Keyboard Log
+jMenuItem4.label=Full Keyboard Log
+FitImagesMenuItem.text=Zoom In/Out
+AspectRatioMenuItem.text=Maintain Aspect Ratio
+aboutMenuItem.text=About RautorViewer
+KeyLog.text=
+#NOI18N
+KeyLog.foreground=0, 51, 153
+#NOI18N
+StartReplayButton.icon=Movie_on.gif
+#NOI18N
+StopReplayButton.icon=stop.gif
+#NOI18N
+FollowButton.icon=open_original_form.gif
+#NOI18N
+mainPanel.background=128, 128, 128
+jButton1.text=jButton1
+jLabel1.text=
+jMenu2.text=Display
+ReloadSession.Action.accelerator=alt pressed R
+PickSession.Action.accelerator=alt pressed D
+ViewFullKeyboardLog.Action.accelerator=ctrl pressed K
+ViewSessionLog.Action.accelerator=ctrl pressed L
+ViewCurrentScreenContents.Action.accelerator=ctrl pressed S
+#NOI18N
+KeyLog.background=255, 255, 255
+#NOI18N
+KeyLog.border.lineColor=0, 0, 204
+jMenu3.text=Screen Image Scaling
+jRadioButtonMenuItem1.text=Standard
+jRadioButtonMenuItem2.text=Smooth
+jRadioButtonMenuItem3.text=Fast
+KeyLog.toolTipText=Current Keyboard Log
+FollowButton.toolTipText=Follow session in near real time
+jMenu4.text=Search
+SearchMenuItem.text=Find
+OpenSearchTextBox.Action.text=
+OpenSearchTextBox.Action.shortDescription=
+#NOI18N
+statusPanel.background=153, 153, 153
+#NOI18N
+statusMessageLabel.background=153, 153, 153
+#NOI18N
+VideoSlider.background=153, 153, 153
+#NOI18N
+jMenu1.background=153, 153, 153
+#NOI18N
+jMenu2.background=153, 153, 153
+#NOI18N
+jMenu4.background=153, 153, 153
+#NOI18N
+fileMenu.foreground=255, 255, 255
+#NOI18N
+jMenu1.foreground=255, 255, 255
+#NOI18N
+jMenu2.foreground=255, 255, 255
+#NOI18N
+jMenu4.foreground=255, 255, 255
+#NOI18N
+helpMenu.foreground=255, 255, 0
+jMenuItem6.text=Find Next
+lookforNext.Action.shortDescription=
+lookforNext.Action.text=
+#NOI18N
+jLabel1.background=153, 153, 153
+ChooseFTPSession.Action.shortDescription=
+ChooseFTPSession.Action.text=
+jMenuItem8.actionCommand=Session from Remote Server
+jMenuItem8.text=Pick Session Dir
+#NOI18N
+jMenuItem8.icon=openfolder.gif

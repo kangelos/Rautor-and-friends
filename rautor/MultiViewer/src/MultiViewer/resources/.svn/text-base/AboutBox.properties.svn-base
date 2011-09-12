@@ -1,0 +1,17 @@
+title = About: ${Application.title} ${Application.version} 
+
+closeAboutBox.Action.text = Close
+
+appDescLabel.text=<htmL>Review /  Replay /Search / Follow  Windows Sessions audited by Rautor_com. <br>MultiViewer can display multiple monitors simultaneously!<br><br>Many thanks to the guys who got a picture of the Minoan Taurus
+
+versionLabel.text=Product Version\:
+
+vendorLabel.text=Vendor\:
+
+homepageLabel.text=Homepage\:
+#NOI18N
+imageLabel.icon=037.jpg
+homepageLabel1.text=Angelo's Proverbs\:
+appHomepageLabel1.text=<html><a href="http://angelicquotes.wordpress.com">http://angelicquotes.wordpress.com</a>
+closeButton.text=Dismiss information
+closeAboutBox.Action.shortDescription=

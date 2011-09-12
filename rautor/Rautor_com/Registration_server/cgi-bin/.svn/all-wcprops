@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/cgi-bin
+END
+clear.pl
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/cgi-bin/clear.pl
+END
+rautor.dump
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/cgi-bin/rautor.dump
+END
+listallsessions.fcgi
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/cgi-bin/listallsessions.fcgi
+END
+dirpass.cgi
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/cgi-bin/dirpass.cgi
+END
+get.pl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/cgi-bin/get.pl
+END
+listsessions.fcgi
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/cgi-bin/listsessions.fcgi
+END
+admin_ips.fcgi
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/cgi-bin/admin_ips.fcgi
+END
+register.fcgi
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/cgi-bin/register.fcgi
+END
+sessview.mysql
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/cgi-bin/sessview.mysql
+END
+dp_setup.pl
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rautor/!svn/ver/84/Rautor_com/Registration_server/cgi-bin/dp_setup.pl
+END

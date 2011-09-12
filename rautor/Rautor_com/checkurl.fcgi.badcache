@@ -1,0 +1,285 @@
+#!/usr/bin/perl 
+
+
+use strict;
+use warnings;
+
+
+use DBI();
+use File::Find ();
+use CGI::Fast qw(:standard);
+use Net::DNS;
+use Data::Dumper;
+
+
+
+$CGI::POST_MAX=1024 * 10; # max 10K posts
+$CGI::DISABLE_UPLOADS = 1; # no uploads
+
+
+my $resolver = Net::DNS::Resolver->new;
+$resolver->nameservers('208.67.222.222','208.67.220.220');
+my %CACHE;
+
+my $VERBOSE=2;
+our %BADURLS;
+our @EXPRESSIONS;
+my $category=0;
+
+# Set the variable $File::Find::dont_use_nlink if you're using AFS,
+# since AFS cheats.
+
+# for the convenience of &wanted calls, including -eval statements:
+use vars qw/*name *dir *prune/;
+*name   = *File::Find::name;
+*dir    = *File::Find::dir;
+*prune  = *File::Find::prune;
+
+sub wanted;
+
+
+
+# Traverse desired filesystems and read the expressions
+File::Find::find({wanted => \&wanted}, '/opt/Rautor/BlackLists'); 
+
+my $dbh = DBI->connect("DBI:mysql:database=rautor;host=localhost",
+			"root","",
+       	                 {'RaiseError' => 0}
+		);
+if ( ! $dbh ) {
+	print STDERR "No Mysql connection \n";
+	die;
+}
+
+my $starttime=time;
+# Main Program
+CGI: while (my $query=new CGI::Fast) {
+# Connect to the database.
+	print header;
+
+
+
+
+
+	my $user=$query->param('user');
+	my $pass=$query->param('pass');
+	if  ( ( ! $user ) || ( ! $pass) )  {
+		print "RAUTOR:ERROR Unauthorized";
+		next;
+	}
+	if (	( $user ne "angelos" ) || ( $pass ne "xarmosyno" ) ) {
+		print "RAUTOR:ERROR Unauthorized";
+		next;
+	}
+
+	my $url=$query->param('url');
+	if ( ! $url) {
+		print "RAUTOR:ERROR No url?";
+		next;
+	}
+	if ( time > ($starttime + 900)  ){ #clear rhe cache every 15 minutes
+		print STDERR "$$ is deleting its cache\n";
+		delete @CACHE{keys %CACHE};
+		$starttime=time;
+	}
+	print STDERR  "Cache is:" . Dumper(%CACHE) if ( $VERBOSE);
+	# check the full url passed against all the expressions
+	foreach  my $expression (@EXPRESSIONS) {
+		if ( $url =~ m/$expression/i ) {
+			if ( $VERBOSE ) { print STDERR "$$ Found $url in expressions\n";  }
+			$CACHE{$url}="BAD";
+			print "RAUTOR:BLACKLISTURL $url from expression $expression\n";
+			next CGI;
+		}
+	}
+	# get rid of passed data as get parameters
+	$url =~ s/\?.*$//gi;
+	$url =~ s/\/cgi-bin\/.*/\/cgi-bin\//gi;
+
+ 	# get rid of the protocol;
+	$url =~ s/^.*:\/\///gi;
+
+
+	my @uelems=split('/',$url); # the parts of the url
+	my $domain=$uelems[0];
+
+	# try to cache some dns queries
+	my $domresult="";
+
+	if ( ! $CACHE{$domain} ) {
+		$domresult=DoOpenDNS($resolver,$domain);
+		$CACHE{$domain}=$domresult;
+	} else {
+		$domresult=$CACHE{$domain};
+	}
+	
+	if ( $domresult eq "BAD" ){
+		print  STDERR "$domain in DNS blacklist\n" if ( $VERBOSE);
+		print "RAUTOR:BLACKLISTURL $domain\n";
+		next CGI;
+	}
+
+
+	# now look it up in the database
+	my @domelems=split('\.',$domain); # this is the domain broken up
+
+	#Find just the domain in the blacklists
+	for (my $i=$#domelems;$i>=0;$i--){
+		my $partdom=join('.',@domelems[$i .. $#domelems]);
+		if ( $CACHE{$partdom} ) {
+			if ( $CACHE{$partdom} eq "BAD" ) {
+				print "RAUTOR:BLACKLISTURL $partdom\n";
+				next CGI;
+			} else {
+				print "RAUTOR:CLEAR $partdom\n";
+				next CGI;
+			}
+		}
+		my $domquery="SELECT url from blacklists where 	url='$partdom'";
+		print STDERR  $domquery . "\n" if ( $VERBOSE > 1 );
+		my $sth = $dbh->prepare($domquery);
+  		$sth->execute;
+    		my $numRows = $sth->rows;
+		if ( $numRows > 0 ){
+			$CACHE{$partdom}="BAD";
+			print "RAUTOR:BLACKLISTURL $partdom\n";
+			next CGI;
+		}
+	}
+	$CACHE{$domain}="CLEAR";
+
+
+	# domain not found, check the full url part;
+	# rebuild part of the urls;
+	my $newurl=join('.',@domelems[1 .. $#domelems]);
+	my $iters=0;
+	for (my $i=1;$i<=$#uelems;$i++){
+		$iters++;
+		$newurl =~ s/^www\.//gi; # get rid of the www prefix;
+		$newurl .= "/" . $uelems[$i];
+		if ( $CACHE{$newurl} ) {
+			if ( $CACHE{$newurl} eq "BAD" ) {
+				print "RAUTOR:BLACKLISTURL $newurl\n";
+				next CGI;
+			} else {
+				print "RAUTOR:CLEAR $newurl\n";
+				next CGI;
+			}
+		}
+		my $sqlquery = sprintf("SELECT url from blacklists where url='%s';",$newurl);
+		print STDERR $sqlquery."\n" if ( $VERBOSE > 1);
+		my $sth = $dbh->prepare($sqlquery);
+    		$sth->execute;
+    		my $numRows = $sth->rows;
+		if ( $numRows > 0 ){
+			$CACHE{$newurl}="BAD";
+			print "RAUTOR:BLACKLISTURL $newurl\n";
+			next CGI; 
+		}
+		# check the expressions now
+	}
+
+	# nothing found
+	print "RAUTOR:CLEAR $newurl";
+	$CACHE{$newurl}="CLEAR";
+	
+}
+
+$dbh->disconnect;
+print  STDERR "$$ Exiting / why ? ";
+
+1;
+
+#**************************************************************************
+sub wanted {
+    return if ( /CATEGORIES/);
+    my $filename=$_;
+    if ( ! -f $filename ){
+	return;
+    }
+    if  (  $filename eq "expressions" )  {
+	open FIN ,"<$filename" || return;
+	$category++;
+	while(<FIN>){
+		chomp($_);
+		push @EXPRESSIONS,$_;
+	}
+	close (FIN);
+    }
+}
+
+
+#**************************************************************************
+sub dnsquery{
+my $resolver=shift;
+my $domain=shift;
+my $type=shift;
+
+	my $query = $resolver->search($domain);
+        if (! $query) {
+		return undef;
+	}
+	my @results=();
+        foreach my $rr ($query->answer) {
+              	if ($rr->type eq $type ){
+              		push (@results , $rr->address)	if ( ( $rr->type eq "A" )   && ($rr->address)) ;			
+              		push (@results , $rr->ptrdname)	if ( ( $rr->type eq "PTR" ) && ($rr->ptrdname));
+		}
+        }
+	return @results;
+}
+
+
+#**************************************************************************
+sub DoOpenDNS{
+my ($resolver,$domain)=@_;
+	# first do an opendns check !
+	my @result=();
+	eval {
+       		local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n required
+        	alarm 3;
+
+		@result=dnsquery($resolver,$domain,"A");
+
+        	alarm 0;
+    	};
+    	if ($@) {
+        	die unless $@ eq "alarm\n";   # propagate unexpected errors
+    	}
+
+	if ( ! @result ) { # continue if an error has occured
+		return "Oh go ahead";
+	}
+
+	if ( $VERBOSE ) {
+		print STDERR "IP for $domain is:";
+		foreach my $ipa ( @result ) {
+			print STDERR $ipa ;
+		}
+		print STDERR "\n";
+	}
+
+
+	
+	foreach my $address ( @result ) {
+		my @rev=();
+		eval {
+       			local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n required
+        		alarm 3;
+			# do a reverse lookup
+			@rev=dnsquery($resolver,$address,"PTR");
+        		alarm 0;
+    		};
+	    	if ($@) {
+        		die unless $@ eq "alarm\n";   # propagate unexpected errors
+    		}
+		foreach my $reverse (@rev){
+			next if ( ! $reverse);
+			print STDERR "Reverse of $address is $reverse\n" if ( $VERBOSE);
+			return "BAD" if ( $reverse =~ /\.opendns\.com/gi );
+		}
+
+	}
+
+	return "GOOD";
+}

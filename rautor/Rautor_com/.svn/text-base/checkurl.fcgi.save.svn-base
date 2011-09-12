@@ -1,0 +1,131 @@
+#!/usr/bin/perl -w
+
+#use strict;
+use File::Find ();
+use CGI::Fast qw(:standard);
+$CGI::POST_MAX=1024 * 10; # max 10K posts
+$CGI::DISABLE_UPLOADS = 1; # no uploads
+
+
+my $VERBOSE=1;
+our %BADURLS;
+our @EXPRESSIONS;
+my $category=0;
+
+# Set the variable $File::Find::dont_use_nlink if you're using AFS,
+# since AFS cheats.
+
+# for the convenience of &wanted calls, including -eval statements:
+use vars qw/*name *dir *prune/;
+*name   = *File::Find::name;
+*dir    = *File::Find::dir;
+*prune  = *File::Find::prune;
+
+sub wanted;
+
+
+
+# Traverse desired filesystems
+#File::Find::find({wanted => \&wanted}, '/opt/Rautor/blacklists');
+File::Find::find({wanted => \&wanted}, '/opt/Rautor/porn');
+
+
+# Main Program
+while (my $query=new CGI::Fast) {
+	print header;
+	my $user=$query->param('user');
+	if ( ! $user ) {
+		print "RAUTOR:ERROR Unauthorized";
+		next;
+	}
+	my $pass=$query->param('pass');
+	if ( ! $pass ) {
+		print "RAUTOR:ERROR Unauthorized";
+		next;
+	}
+	if (	( $user ne "angelos" ) || ( $pass ne "xarmosyno" ) ) {
+		print "RAUTOR:ERROR Unauthorized";
+		next;
+	}
+
+	my $url=$query->param('url');
+	if ( ! $url) {
+		print "RAUTOR:ERROR No url?";
+		next;
+	}
+	my @uelems=split(/\//,$url);
+
+print STDERR "UELEMS $uelems[2]";
+	$uelems[2]=~s/^[.*]?\.//; # throw away the domains first part
+	$uelems[2]=~s/^www\.//; # throw away the www part
+print STDERR "UELEMS $uelems[2]";
+
+	# rebuild part of the urls;
+	my $newurl="";
+	my $found=0;
+	for (my $i=2;($i<$#uelems)&&($i<5);$i++){ # 3 levels deep
+		$newurl .= $uelems[$i];
+		print STDERR "$$ -- " . $newurl. " --  " . $BADURLS{$newurl} ."\n"; 
+		if (defined($BADURLS{$newurl})) {
+			if ( $VERBOSE ) { print STDERR "$$ Found $newurl in blacklist\n";  }
+			print "RAUTOR:BLACKLISTURL $newurl\n";
+			$found++;
+			last;
+		}
+		# check the expressions now
+		foreach $expression (@EXPRESSIONS) {
+			if ( $newurl =~ m/$expression/ ) {
+				if ( $VERBOSE ) { print STDERR "$$ Found $newurl in blacklist\n";  }
+				print "RAUTOR:BLACKLISTURL $newurl from expression $expression\n";
+				$found++;
+				last;
+			}
+		}
+	#	# a very slow pass
+	#	foreach $badurl (keys %BADURLS) {
+	#		if ($newurl =~ m/$badurl/){
+	#			if ( $VERBOSE ) { print STDERR "$$ Found $newurl in blacklist\n";  }
+	#			print "RAUTOR:BLACKLISTURL $badurl found in $newurl\n";
+	#			$found++;
+	#		}
+	#	}
+		$newurl .= "/";
+	}
+	# nothing found
+	print "RAUTOR:CLEAR $url" if ( $found == 0 ) ;
+        print end_html;
+}
+
+print  STDERR "$$ Exiting / why ? ";
+
+1;
+
+#**************************************************************************
+sub wanted {
+    return if ( /CATEGORIES/);
+    $filename=$_;
+    if ( ! -f $filename ){
+	return;
+    }
+    if  ( ( $filename eq "domains" ) || ( $filename eq "urls" ) ) {
+	print STDERR "$$ Reading: $name\n" if ( $VERBOSE);
+	open FIN ,"<$filename" || return;
+	$category++;
+	while(<FIN>){
+		chomp($_);
+		$BADURLS{$_}=$category;
+	}
+	close (FIN);
+   }
+    if  (  $filename eq "expressions" )  {
+	print STDERR "$$ Reading: $name\n" if ( $VERBOSE);
+	open FIN ,"<$filename" || return;
+	$category++;
+	while(<FIN>){
+		chomp($_);
+		push @EXPRESSIONS,$_;
+	}
+	close (FIN);
+    }
+}
+

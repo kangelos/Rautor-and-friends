@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jnlp codebase="http://www.unix.gr/rautor/commercial" href="launch.jnlp" spec="1.0+">
+    <information>
+        <title>MultiViewer</title>
+        <vendor>Angelos Karageorgiou</vendor>
+        <homepage href="http://www.rautor.com"/>
+        <description>Review and Replay  Windows Sessions audited by Rautor_com. 
+
+Choose a Session directory and the screen dumps will be displayed sequentially.
+MultiViewer can display multiple monitors!</description>
+        <description kind="short">MultiViewer</description>
+
+
+    </information>
+<security>
+<all-permissions/>
+</security>
+    <resources>
+<j2se version="1.6+"/>
+<jar eager="true" href="MultiViewer.jar" main="true"/>
+
+
+    <jar href="lib/appframework-1.0.3.jar"/>
+<jar href="lib/swing-worker-1.1.jar"/>
+<jar href="lib/VFSJFileChooser-0.0.3.jar"/>
+<jar href="lib/commons-collections-3.2.1.jar"/>
+<jar href="lib/commons-compress-20050911.jar"/>
+<jar href="lib/commons-httpclient-3.1.jar"/>
+<jar href="lib/commons-lang-2.4.jar"/>
+<jar href="lib/commons-logging-1.1.1.jar"/>
+<jar href="lib/commons-net-1.4.0.jar"/>
+<jar href="lib/commons-vfs-2.0-SNAPSHOT.jar"/>
+<jar href="lib/commons-vfs-sandbox-2.0-SNAPSHOT.jar"/>
+<jar href="lib/jcifs-1.2.9.jar"/>
+<jar href="lib/jsch-0.1.39.jar"/>
+<jar href="lib/junit.jar"/>
+<jar href="lib/oro-2.0.8.jar"/>
+<jar href="lib/webdavclient4j-cmd-0.92.jar"/>
+<jar href="lib/webdavclient4j-core-0.92.jar"/>
+<jar href="lib/webdavclient4j-jca-0.92.jar"/>
+<jar href="lib/webdavclient4j-vfs-0.92.jar"/>
+<jar href="lib/commons-codec-1.4.jar"/>
+</resources>
+    <application-desc main-class="MultiViewer.MultiViewerApp">
+
+    </application-desc>
+</jnlp>

@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic
+END
+AbstractVFSUIAction.class
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/AbstractVFSUIAction.class
+END
+BasicVFSDirectoryModel$DoChangeContents.class
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSDirectoryModel$DoChangeContents.class
+END
+BasicVFSFileChooserUI.class
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSFileChooserUI.class
+END
+BasicVFSFileChooserUI$GoHomeAction.class
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSFileChooserUI$GoHomeAction.class
+END
+BasicVFSFileChooserUI$Handler.class
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSFileChooserUI$Handler.class
+END
+BasicVFSDirectoryModel$LoadFilesThread.class
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSDirectoryModel$LoadFilesThread.class
+END
+BasicVFSFileChooserUI$ApproveSelectionAction.class
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSFileChooserUI$ApproveSelectionAction.class
+END
+BasicVFSFileChooserUI$UpdateAction.class
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSFileChooserUI$UpdateAction.class
+END
+BasicVFSFileChooserUI$NewFolderAction.class
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSFileChooserUI$NewFolderAction.class
+END
+BasicVFSFileChooserUI$ChangeToParentDirectoryAction.class
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSFileChooserUI$ChangeToParentDirectoryAction.class
+END
+BasicVFSDirectoryModel$1.class
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSDirectoryModel$1.class
+END
+BasicVFSFileChooserUI$DoubleClickListener.class
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSFileChooserUI$DoubleClickListener.class
+END
+BasicVFSFileChooserUI$GlobFilter.class
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSFileChooserUI$GlobFilter.class
+END
+BasicVFSFileChooserUI$CancelSelectionAction.class
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSFileChooserUI$CancelSelectionAction.class
+END
+BasicVFSFileChooserUI$BasicVFSFileView.class
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSFileChooserUI$BasicVFSFileView.class
+END
+BasicVFSFileChooserUI$SelectionListener.class
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSFileChooserUI$SelectionListener.class
+END
+BasicVFSFileChooserUI$AcceptAllFileFilter.class
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSFileChooserUI$AcceptAllFileFilter.class
+END
+BasicVFSFileChooserUI$1.class
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSFileChooserUI$1.class
+END
+BasicVFSDirectoryModel.class
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svnroot/rautor/!svn/ver/85/MultiViewer/VFSJFileChooser/build/bin/net/sf/vfsjfilechooser/plaf/basic/BasicVFSDirectoryModel.class
+END

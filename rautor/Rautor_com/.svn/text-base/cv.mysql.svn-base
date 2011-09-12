@@ -1,0 +1,3 @@
+
+
+create view sesview as select * from sessions where status='START' order by domain,node,username,timestamp
