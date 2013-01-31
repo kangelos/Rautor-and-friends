@@ -32,6 +32,7 @@ my $imgFname="screen.$format";
 my $SLEEP=3;
 my $GRABBER="/usr/bin/X11/scrot -z ";
 my $FOCUS;
+my $SCALED;
 
 
 my $RepeatHeader="<HEAD><META HTTP-EQUIV=REFRESH CONTENT=$SLEEP></HEAD>\r\n
@@ -44,19 +45,30 @@ if ( ! -f "/usr/bin/X11/scrot" ) {
 	exit(2);
 }
 
-GetOptions ("refresh=i" => \$SLEEP,
-                      "focus"    => \$FOCUS,      
-                      "verbose"  => \$VERBOSE,
-                      "help"  => \$HELP
-);  
+GetOptions (	"refresh=i"	=> \$SLEEP,
+                "focus"		=> \$FOCUS,      
+                "focused"	=> \$FOCUS,      
+                "verbose"	=> \$VERBOSE,
+                "scaled"	=> \$SCALED,
+                "scale"		=> \$SCALED,
+                "help"		=> \$HELP
+	);  
 
 if ( $HELP ) {
-	print "Usage: ShareMyScreen.pl [--help] [--verbose] [--focus] [--refresh=seconds]
+	print "\nUsage: ShareMyScreen.pl [--help] [--verbose] [--focus] [--refresh=seconds]
 		--help:		this help
 		--verbose:	verbose
-		--focus:	share only the currently focused window,otherwise full display
+		--focus[ed]:	share only the window that has the focus
+		--scale[d]:	Produce scaled Image
 		--refresh:	refresh every so many seconds
+
+Defaults are: 
+	Full Desktop sharing, 
+	unscaled , 
+	terse, 
+	refresh every $SLEEP secs
 ";
+exit(0);
 }
 
 
@@ -161,10 +173,11 @@ sub domonitor{
 	for (my $i=1;$i<=$NumScreens;$i++){
 		my $fname="screen".$i.".$format";
 		$RepeatHTML .= "<tr><td colspan=$span>";
-		#Uncomment for scaled png
-		$RepeatHTML .= "<img src=\"/$fname\" width='100%' height='100%' align=center></td>\r\n";
-		# Uncomment for Unscaled PNG
-#		$RepeatHTML .= "<img src=\"/$fname\" align=center></td>\r\n";
+		if ( $SCALED ) {
+			$RepeatHTML .= "<img src=\"/$fname\" width='100%' height='100%' align=center></td>\r\n";
+		} else {
+			$RepeatHTML .= "<img src=\"/$fname\" align=center></td>\r\n";
+		}
 		if ( ( $i % 2 ) == 0 ) {
 			$RepeatHTML .= "</tr>\r\n<tr>";
 		}
