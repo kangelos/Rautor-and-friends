@@ -1,17 +1,17 @@
 #!/usr/bin/perl -w
 #
-# A screen grabber with an embedded Web Server
+# A screen grabber with an embedded Web Server as an alternative to VNC 
 # Angelos Karageorgiou
 # angelos@unix.gr
 #
-# remember to apt-get/ymu install scrot   
+# remember to apt-get/yum install scrot   
 #
 #
-# Point your borwser to the URLs the program spirts out and you get your
+# Point your browser to the URLs the program spits out and you get your
 # peer's screen
 #
 
-package Rautor; # look for it under sourceforge
+package Rautor; # look for it under sourceforge :-)
 
 
 use HTTP::Daemon;
@@ -30,9 +30,17 @@ my $VERBOSE='';
 my $format="png";
 my $imgFname="screen.$format";
 my $SLEEP=3;
-my $GRABBER="/usr/bin/X11/scrot -z ";
+my $GRABBER="/usr/bin/X11/scrot";
 my $FOCUS;
 my $SCALED;
+
+
+if ( ! -x $GRABBER ) {
+	print "X grabber not found\n";
+	print "please install " . `basename $GRABBER `."\n";
+	exit(1);
+}
+$GRABBER .= " -z ";
 
 
 my $RepeatHeader="<HEAD><META HTTP-EQUIV=REFRESH CONTENT=$SLEEP></HEAD>\r\n
@@ -87,7 +95,7 @@ $sel->add($daemon);
 
 @myips=split("\n", `ifconfig -a | grep "inet addr:" | cut -f2 -d: | awk '{print \$1}'`);
 
-print "$0 starting\n Valid Urls are:\n";
+print "$0 starting\n" . "-" x 70 .  "\nValid Urls are:\n" ;
 foreach $ip (@myips) {
 	next if ($ip eq "127.0.0.1");
 	printf "http://$ip:$PORT\n";
